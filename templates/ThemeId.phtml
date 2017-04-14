@@ -1,0 +1,52 @@
+<section>
+   <?php
+        $pdo = Connect::getConnect();
+        $url = explode('/', $_SERVER['REQUEST_URI']);
+        if(isset($url[3]))
+        {
+    ?>
+    <h2>Блог</h2>
+    <hr>
+        <div class="lines"></div>
+    <hr>
+    <div class="listThemes">
+        <?php
+            
+            $obj = $pdo->prepare("select * from Blog where Id = '{$url[3]}'");
+            $obj->execute();
+            $item = $obj->fetch();
+            
+            ?>
+              <div class="theme">
+                  <a href="/Blog/ThemeId/<?php echo $item['Id']; ?>"><?php echo $item['Name']; ?></a>
+                  <p><?php echo $item['Descriptions']; ?></p>
+              </div>  
+            <?php
+            $id = $item['Id'];
+            $comm = $pdo->prepare("select * from Comments where Kod_Blog = '{$id}'");
+            $comm->execute();
+            $listComment = $comm->fetchAll();
+            foreach($listComment as $elem)
+            { ?>
+                <div class="comment">
+                    <p><?php echo $elem['comments']; ?></p>
+                    <?php
+                        $idU = $elem['Kod_User'];
+                        $us = $pdo->prepare("select * from Users where ID = '{$idU}'");
+                         $us->execute();
+                         $User = $us->fetch();
+                    ?>
+                    <p><?php echo $User['Names']; ?></p>
+                    <p><?php echo $elem['date']; ?></p>
+                </div>
+            <?php }
+        }?>
+    </div>
+    <div class="newComment">
+        <form action="/Blog/ThemeId" method="post">
+            <input type="text" class="hide" name="id" value="<?php echo $url[3]; ?>">
+            <textarea name="newComment" id="nc" cols="30" rows="10">коментувати...</textarea>
+            <p><input type="submit" name="adds" value="Коментувати" class="btn"></p>
+        </form>
+    </div>
+</section>

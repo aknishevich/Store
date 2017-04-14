@@ -1,0 +1,19 @@
+<section>
+    <h2>Блог</h2>
+    
+    <div class="listThemes">
+        <?php
+            $pdo = Connect::getConnect();
+            $obj = $pdo->prepare("select * from Blog");
+            $obj->execute();
+            $list = $obj->fetchALl();
+            foreach($list as $item)
+            {?>
+              <div class="theme">
+                  <a href="/Blog/ThemeId/<?php echo $item['Id']; ?>"><?php echo $item['Name']; ?></a>
+                  <p><?php echo $item['Descriptions']; ?></p>
+              </div>
+             <hr>
+            <?}  ?>
+    </div>
+</section>

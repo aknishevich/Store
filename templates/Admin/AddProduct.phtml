@@ -1,0 +1,20 @@
+﻿<section>
+    <form action="/Admin/AddProduct" method="post" enctype="multipart/form-data">
+       <p>Назва: <input type="text" name="Names"></p>
+       <p>Категорія товару: <select name="kod_pt" id="pt">
+           <?php
+               $pdo = Connect::getConnect();
+               $obj = $pdo->prepare("select * from PTypes");
+               $obj->execute();
+               $list = $obj->fetchAll();
+            foreach($list as $item)
+            {?>
+                <option value="<?php echo $item['Id']; ?>"><?php echo $item['Name_PT']; ?></option>
+            <?php } ?>
+       </select></p>
+       <p>Ціна: <input type="text" name="prc"></p>
+       <p>Зображення: <input type="file" name="icons" accept="image/jpeg"></p>
+       <p>Опис: <textarea name="ds" id="ds" cols="30" rows="10"></textarea></p>
+        <input type="submit" name="adds" value="Додати" class="btn">
+    </form>
+</section>

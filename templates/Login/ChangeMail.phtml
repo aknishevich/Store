@@ -1,0 +1,33 @@
+<section><form action="/Account/ChangePassword" method="post">
+    <table>
+       <tr>
+           <td>
+              <?php
+               if($this->values ==2){ }
+                else if($this->values==0){
+                    echo "Помилка";
+                }
+               else{
+                   echo"E-Mail змінено";
+               }
+               ?> 
+            </td>
+       </tr>
+        <tr>
+            <td><label for="alt_pass">Старий E-Mail</label></td>
+            <td><input type="text" name="alt_pass" id="alt_pass"></td>
+        </tr>
+        <tr>
+            <td><label for="new_pass">Новий E-Mail</label></td>
+            <td><input type="text" name="new_pass" id="new_pass"></td>
+        </tr>
+        <tr>
+            <td><label for="new_pass2">Новий E-Mail</label></td>
+            <td><input type="text" name="new_pass2" id="new_pass2"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" name="change" value="Змінити"></td>
+        </tr>
+    </table>
+</form></section>

@@ -1,0 +1,14 @@
+﻿<div class="autorization">
+    <form action="" method="post" enctype="multipart/form-data">
+
+        <p class="err"><?php if($this->values[0]==-1){ echo "Невірно введена цифра";}?></p>
+       <p><input type="text" name="log" id="log" placeholder="Введіть бажаний Лоґін"></p>
+        <p><input type="password" name="pass" id="pass" placeholder="Введіть Ваш пароль"></p>
+	<p><input type="text" name="city" id="city" placeholder="З якого ви міста?"></p>
+        <p><input type="text" name="mail" id="mail" placeholder="Введіть Ваш E-mail"></p>
+        <p>Введіть найменьшу цифру в числі праворуч: <span><?php  if($this->values[0]!=-1){ echo $this->values[1];}?></span></p>
+        <p><input type="text" name="capcha" id="cp" placeholder="Найменша цифра"></p>
+        <p><input id="form" type="submit" name="registration" value="Зареєструвати" class="btn"></p>
+
+    </form>
+</div>

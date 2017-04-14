@@ -1,0 +1,270 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+body
+{
+    background-color: #efefef;
+}
+a
+{
+    color: #000;
+}
+div.lisMenu, div.footer, div.banner, div.autorization, div.users, .menu2, section, div.contain, div.adssType
+{
+    width: 1200px;
+    margin: 0 auto;
+}
+div.leftM, div.contents, div.banners
+{
+    display: inline-block;
+    vertical-align: top;
+}
+div.items
+{
+    margin-top: 15px;
+}
+div.leftM a
+{
+    color: #fff;
+    text-decoration: none;
+}
+div.leftM h3
+{
+    background-color: #ff8d00;
+    color: #fff;
+    margin-left: -30px;
+    margin-right: -10px;
+    padding: 10px 0;
+    margin-bottom: 10px;
+}
+div.leftM ol li a:hover
+{
+    text-decoration: underline;
+}
+div.leftM ol li
+{
+    list-style: circle;
+    text-align: left;
+    margin-left: 20px;
+}
+div.leftM
+{
+    width: 15%;
+    margin-left: 10px;
+    margin-right: 20px;
+    padding-left: 20px;
+    background-color: #8a8989;
+    text-align: center;
+    padding-top: 10px;
+    border-radius: 5px;
+    padding-bottom: 15px;
+}
+div.contents
+{
+    width: 60%;
+    padding-bottom: 40px;
+}
+div.contents div.Products
+{
+    display: inline-block;
+    width: 150px;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 4px;
+}
+div.banners
+{
+    width: 20%;
+}
+section
+{
+    margin: 30px auto;
+}
+.menu2
+{
+    padding-left: 40px;
+    padding-bottom: 100px;
+}
+div.users h3
+{
+    margin-left: 20px;
+}
+div.users ul
+{
+     margin: 10px 20px 300px 20px;
+}
+div.users ul li
+{
+    list-style: none;
+}
+div.banner
+{
+    outline: 1px solid #000;
+    height: 100px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+div.lisMenu ol li a:hover
+{
+    background-color: orangered;
+    transition: background 0.5s;
+}
+div.lisMenu ol li a
+{
+    display: block;
+    padding: 10px 20px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: Arial;
+}
+div.lisMenu ol
+{
+    background-color: #ff8d00;
+    margin-bottom: 20px;
+}
+div.lisMenu ol li:last-of-type
+{
+    margin-left: 360px;
+}
+div.lisMenu ol li
+{
+    display: inline-block;
+}
+div.footer
+{
+   padding: 10px 0;
+}
+div.lines
+{
+    width: 100%;
+    margin-top: 580px;
+}
+div.footer
+{
+    background: linear-gradient(to top, #ff8d00, #ffa500);
+    overflow: hidden;
+    position: relative;
+}
+.footer p
+{
+    text-align: center;
+    color: #fff;
+    margin: 10px 10px 40px 10px;
+    font-size: 12px;
+}
+p.r
+{
+    position: absolute;
+    right: 10px;
+    top: 0px;
+    text-align: left;
+}
+p.l
+{
+    width: 200px;
+    position: absolute;
+    left: 40px;
+    top: 10px;
+    font-size: 16px;
+    text-align: left;
+}
+p.y
+{
+    font-size: 22px;
+}
+input[type="text"]:focus, input[type="password"]:focus
+{
+    outline: 1px solid #ff8d00;
+}
+input[type="text"], input[type="password"]
+{
+    padding: 10px;
+    font-size: 16px;
+    margin: 10px 0;
+}
+input{
+    align: center;
+}
+div.autorization
+{
+    margin-bottom: 200px;
+}
+.btn:hover
+{
+    cursor: pointer;
+}
+.btn
+{
+    width: 200px;
+    padding: 10px;
+    background: #ff8d00;
+    color: #fff;
+    font-weight:  bold;
+    border: none;
+    margin-bottom: 10px;
+    align: center;
+}
+section div.lines
+{
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+.hide
+{
+    display: none;
+}
+div.itemColl
+{
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+div.itemColl
+{
+    margin-bottom: 10px;
+}
+div.itemColl img
+{
+    float: left;
+    margin-right: 5px;
+}
+div.banners h3
+{
+    margin-left: -10px;
+    margin-right: -10px;
+    background: #ff8d00;
+    color: #fff;
+    padding: 10px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+.basket
+{
+    text-align: center;
+}
+.zamovlenya
+{
+    margin-top: 15px;
+}
+.Productss
+{
+    text-align: center;
+}
+div.about img
+{
+    float: left;
+    margin-right: 10px;
+}
+div.adssType p:last-of-type
+{
+    margin-bottom: 5px;
+}
+div.adssType
+{
+    margin-bottom: 270px;
+}

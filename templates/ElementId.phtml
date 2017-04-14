@@ -1,0 +1,68 @@
+﻿<div class="contain">
+   <div class="leftM">
+        <?php
+            $url = explode('/', $_SERVER['REQUEST_URI']);
+       
+            $pdo = Connect::getConnect();
+            $obj = $pdo->prepare("select * from Types");
+            $obj->execute();
+        $list = $obj->fetchAll();
+        foreach($list as $item)
+        {?>
+        <div class="items">
+             <?php
+                echo "<h3><a href='/Product/Type/".$item['Id']."'>".$item['Name']."</a></h3>";
+
+                $el = $item['Id'];
+                $val = $pdo->prepare("select * from PTypes where Kod_T = '{$el}'");
+                $val->execute();
+                $PTypes = $val->fetchAll();
+
+                echo "<ol>";
+                foreach($PTypes as $elem)
+                {
+                    echo "<li><a href='/Product/CategoryId/".$elem['Id']."'>".$elem['Name_PT']."</a></li>";
+                }
+                echo "</ol></div>";
+            } ?>
+        
+    </div>
+    <div class="contents">
+        <?php
+            $prod = $pdo->prepare("select * from Products where Id = '{$url[3]}'");
+            $prod->execute();
+            $productList = $prod->fetchAll();
+        foreach($productList as $Product)
+        {?>
+           <div class="Productss">
+               <a href="/Product/ElementId/<?php echo $Product['Id']; ?>">
+                   <img src="/images/<?php echo $Product['images']; ?>" height="140" width="140" alt="1" onclick="say()"><br>
+                   <span><?php echo $Product['Name']; ?></span>
+               </a>
+	       <b><p class="prc">Ціна: <?php echo $Product['Price']; ?> грн.</p></b>
+	       <p class="descr"><?php echo $Product['DS']; ?></p><br>
+	       <form action="/Product/ElementId" method="post">
+                   <input type="text" class="hide" name="Id" value="<?php echo $Product['Id']; ?>">
+                   <input type="submit" name="adds" value="Додати в кошик" class="btn">
+               </form>
+               
+               
+           </div> 
+        <?php } ?>
+    </div>
+    <div class="banners">
+        <h3>Наші послуги</h3>
+        <div class="itemColl">
+            <b>Очистка:</b><br>1. Зернові - 220 грн/т; <br>2. Олійні - 160 грн/т; <br>3. Багаторічні трави - 900 грн/т;
+        </div>
+        <div class="itemColl">
+            <b>Зберігання (т/місяць):</b><br>1. Зернові і олійні - 15 грн; <br>2. Багаторічні трави - 20 грн;
+        </div>
+        <div class="itemColl">
+            <b>Протравка:</b><br>1. Зернові - 25 грн/т; <br>2. Олійні - 15 грн/т;
+        </div>
+        <div class="itemColl">
+            <b>Млин (КДУ 2)</b>
+        </div>
+    </div>
+</div>

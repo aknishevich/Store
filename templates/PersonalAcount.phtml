@@ -1,0 +1,22 @@
+﻿<div class="users">
+    <h3><?php echo $_SESSION['login'];?></h3>
+    
+    <ul>
+       <?php
+            $pdo = Connect::getConnect();
+            $names = $_SESSION['login'];
+            $obj = $pdo->prepare("select * from Users where Names = '{$names}'");
+            $obj->execute();
+            $user = $obj->fetch();
+            
+            if(strcmp($_SESSION['pass'], $user['Password'])==0 && $user['Kod_roles']==1)
+            {
+                echo "<li><a href='/Admin'>Сторінка адміністратора</a></li>";
+            }
+            
+        ?>
+        <li><a href="Account/ChangePassword"> Змінити пароль</a></li>
+        <li><a href="Account/ChangeMail"> Змінити E-Mail</a></li>
+        <li><a href="Account/LogOut">Вихід</a></li>
+    </ul>
+</div>

@@ -1,0 +1,61 @@
+﻿<nav class="menu2">
+    <?php error_reporting(0);?>
+    <div id="result" style="text-align: center;">Виберіть спосіб відбору: 
+        <form action="" method="post">
+        <p><b>Результати по:</b><Br>
+            <input type="radio" name="resultBy" value="продажам" checked="checked" onchange="this.form.submit()"> продажам<Br>
+            <input type="radio" name="resultBy" value="пользователям" onchange="this.form.submit()" <?php if($_POST['resultBy'] == 'пользователям') echo 'checked="checked"';?>> пользователям<Br>
+        </p>
+        <p>Виберите період від: <input type="date" name="calendar1" onchange="this.form.submit()" value="<?php echo $_POST['calendar1'];?>"> до: <input type="date" name="calendar2" onchange="this.form.submit()" value="<?php echo $_POST['calendar2'];?>">
+        </form>
+    </div>
+    <table>
+        <?php 
+            $pdo = Connect::getConnect();
+            $st = $_POST['resultBy'];
+            $date1 = $_POST['calendar1'];
+            echo 'sdaf'.$date1.'asdfsdf';
+            $date2 = $_POST['calendar2'];
+            if ($_POST['resultBy'] == 'продажам')
+                echo '<tr>
+            <th>Id</th>
+            <th>Назва товару</th>
+            <th>Ціна</th>
+            <th>Кількість продаж</th>
+            <th>Товару продано</th>
+            <th>Сума продаж</th>
+            </tr>'.
+            $prod = $pdo->prepare("SELECT * FROM Orders WHERE Orders.Date >= '$date1' AND <= '$date2'");
+            $prod->execute();
+            
+            $orderList = $prod->fetchAll();
+            foreach($orderList as $Order)
+             {
+                $tov1 = $pdo->prepare("SELECT * FROM Products WHERE Products.Id = '{$Order['ProductId']}'");
+                $tov1->execute();
+                $tovlist = $tov1->fetchAll();
+                foreach($tovlist as $tov){
+                    foreach($orderList as $ord2){
+                        $count += $ord2['Count'];
+                        }
+                "<tr>
+                 <td><?php echo '{$Order['ProductId']}'; ?></td>
+                 <td><?php echo '{$Order['Name']}'; ?></td>
+                 <td><?php echo '{$tov['Price']}'</td>
+                 <td>'.$count1.'</td>
+                 <td>'.$count.'</td>
+                 <td>'<?php echo '{$tov['Price']}'</td>
+                ';}
+                echo '<th>Id</th>
+            <th>asdfasdf</th>
+            <th>Город</th>
+            <th>Товар</th>
+            <th>Сумма покупки</th>
+            <th>Дата покупки</th>';
+        ?>
+        <caption>Відбір по параметру: <?php echo '{$_POST['searchType']}' ?></caption>
+        <?php echo '{$_POST['resultBy']}';?>
+        <tr>
+        </tr>
+    </table>
+</nav>

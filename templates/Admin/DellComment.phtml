@@ -1,0 +1,17 @@
+<section>
+   <?php
+        $pdo = Connect::getConnect();
+        $obj = $pdo->prepare("select * from Comments");
+        $obj->execute();
+        $list = $obj->fetchAll();
+    foreach($list as $item)
+    {?>
+        <form action="/Admin/DellComment" method="post">
+            <input type="text" class="hide" name="Id" value="<?php echo $item['Id']; ?>">
+            <p><?php echo $item['comments']; ?>  <input type="submit" name="dells" value="Видалити"></p> 
+        </form>
+        
+    <?php } ?>
+    
+    
+</section>

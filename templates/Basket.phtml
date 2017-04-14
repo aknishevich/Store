@@ -1,0 +1,36 @@
+﻿<section class="basket">
+    <?php
+        $pdo = Connect::getConnect();
+        $nm = $_SESSION['login'];
+        $us = $pdo->prepare("select * from Users where Names = '{$nm}'");
+        $us->execute();
+        $User = $us->fetch();
+        $userId = $User['ID'];
+        
+        $obj = $pdo->prepare("select * from Baskets where Kod_User = '{$userId}'");
+        $obj->execute();
+        $list = $obj->fetchAll();
+    $ALLPRICE = 0;
+    foreach($list as $item){ 
+        $idP = $item['Kod_Product'];
+        $nameP = $pdo->prepare("select * from Products where Id = '{$idP}'");
+        $nameP->execute();
+        $nameProduct = $nameP->fetch();
+    ?>
+        <form action="/Basket" method="post">
+           <input type="text" class="hide" name="IdBask" value="<?php echo $item['Id']; ?>">
+           <input type="text" class="hide" name="kodU" value="<?php echo $userId; ?>">
+            <p><span>Назва товару:</span> <b><?php echo $nameProduct['Name']; ?></b> <span>Ціна: </span><b><?php echo $nameProduct['Price']; $ALLPRICE += ($nameProduct['Price'] * $item['Count']); ?></b> 
+            <span>Кількість: </span><input class="btn" type="submit" name="decr2" value="-100" style="padding-left: 8px; width: 40px;"> <input class="btn" type="submit" name="decr1" value="-10" style="width: 35px;"> <input class="btn" type="submit" name="decr" value="-1" style="width: 35px;"><b> <?php echo $item['Count']; ?> (кг) </b>
+ <input class="btn" type="submit" name="secr" value="+1" style="width: 35px;"> <input class="btn" type="submit" name="secr1" value="+10" style="padding-left: 8px; width: 35px;"> <input class="btn" type="submit" name="secr2" value="+100 " style="padding-left: 5px; width: 40px;"><input type="submit" name="dell" value="Видалити" class="btn" style="width: 150px; margin-left: 10px;"></p>
+            <span>Ціна: </span><b><?php echo $cina = ($nameProduct['Price'] * $item['Count']) ?> грн.</b>
+        </form>
+        <hr>
+    
+    <?php } ?>
+    <h3>Загальна сума: <b><?php echo $ALLPRICE; ?>грн.</b> </h3>
+    <form action="/Basket" method="post">
+        <input type="text" class="hide" name="kodU" value="<?php echo $userId; ?>">
+        <p class="zamovlenya"><input type="submit" value="Замовити" name="order" class="btn"></p>
+    </form>
+</section>

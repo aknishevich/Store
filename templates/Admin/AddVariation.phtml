@@ -1,0 +1,19 @@
+﻿<section>
+    <form action="/Admin/AddVariation" method="post">
+        <p>Назва підтипу: <input type="text" name="Names"></p>
+        <p>Належить до типу: 
+            <select name="kodT" id="kodT">
+                <?php
+                $pdo = Connect::getConnect();
+                   $obj = $pdo->prepare("select * from Types");
+                   $obj->execute();
+                   $list = $obj->fetchAll();
+                foreach($list as $item)
+                {?>
+                    <option value="<?php echo $item['Id']; ?>"><?php echo $item['Name']; ?></option>
+                <?php }?>
+            </select>
+        </p>
+        <p><input type="submit" name="adds" value="Додати"></p>
+    </form>
+</section>

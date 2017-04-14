@@ -1,0 +1,72 @@
+﻿<div class="contain">
+   <div class="leftM">
+        <?php
+            $pdo = Connect::getConnect();
+            $obj = $pdo->prepare("select * from Types");
+            $obj->execute();
+        $list = $obj->fetchAll();
+        foreach($list as $item)
+        {?>
+        <div class="items">
+             <?php
+                echo "<h3><a href='/Product/Type/".$item['Id']."'>".$item['Name']."</a></h3>";
+
+                $el = $item['Id'];
+                $val = $pdo->prepare("select * from PTypes where Kod_T = '{$el}'");
+                $val->execute();
+                $PTypes = $val->fetchAll();
+
+                echo "<ol>";
+                foreach($PTypes as $elem)
+                {
+                    echo "<li><a href='/Product/CategoryId/".$elem['Id']."'>".$elem['Name_PT']."</a></li>";
+                }
+                echo "</ol></div>";
+            } ?>
+		<form action="" method="post" style="color: white; margin-top: 30px; margin-left: -10px;">
+        <p>Ціна:</p>
+	<? error_reporting(0);?>
+	<label>Від  <input type="text" name="pricea" value="<?=$_POST["pricea"]?>" size = "10"></label>
+	<p><label>До  <input type="text" name="priceb" value="<?=$_POST["priceb"]?>" size = "10"></label></p>
+    	<input id="form" type="submit" name="registration" value="Пошук" class="btn" size = "10" style="width: 150px; height: 40px;">
+	</form>
+        
+    </div>
+    <div class="contents">
+        <?php
+	    $x = $_POST['pricea'];
+	    if(!$x) {$a = 0;}
+	    else {$a = $x;}
+	    $z = $_POST['priceb'];
+	    if(!$z) {$b = 10000;}
+	    else {$b = $z;}
+            $prod = $pdo->prepare("CALL sortByPrice($a, $b)");
+            $prod->execute();
+            $productList = $prod->fetchAll();
+        foreach($productList as $Product)
+        {?>
+           <div class="Products">
+               <a href="/Product/ElementId/<?php echo $Product['Id']; ?>">
+                   <img src="/images/<?php echo $Product['images']; ?>" height="140" width="140" alt="1">
+                   <span><?php echo $Product['Name']; ?></span>
+               </a>
+               <p class="prc">Ціна: <?php echo $Product['Price']; ?> грн.</p>
+           </div> 
+        <?php } ?>
+    </div>
+    <div class="banners">
+        <h3>Наші послуги</h3>
+        <div class="itemColl">
+            <b>Очистка:</b><br>1. Зернові - 220 грн/т; <br>2. Олійні - 160 грн/т; <br>3. Багаторічні трави - 900 грн/т;
+        </div>
+        <div class="itemColl">
+            <b>Зберігання (т/місяць):</b><br>1. Зернові і олійні - 15 грн; <br>2. Багаторічні трави - 20 грн;
+        </div>
+        <div class="itemColl">
+            <b>Протравка:</b><br>1. Зернові - 25 грн/т; <br>2. Олійні - 15 грн/т;
+        </div>
+        <div class="itemColl">
+            <b>Млин (КДУ 2)</b>
+        </div>
+    </div>
+</div>

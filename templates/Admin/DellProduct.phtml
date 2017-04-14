@@ -1,0 +1,16 @@
+﻿<section>
+    <form action="/Admin/DellProduct" method="post">
+        <?php
+            $pdo = Connect::getConnect();
+               $obj = $pdo->prepare("select * from Products");
+               $obj->execute();
+               $list = $obj->fetchAll();
+            foreach($list as $item)
+            {?>
+            <input type="text" name="id" class="hide" value="<?php echo $item['Id']; ?>">
+            <input type="text" name="imgName" value="<?php echo $item['images']; ?>" class="hide">
+            <p><?php echo $item['Name']; ?>
+            <input type="submit" name="dells" value="Видалити"></p>
+            <?php } ?>
+    </form>
+</section>

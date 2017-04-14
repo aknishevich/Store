@@ -1,0 +1,20 @@
+<div class="adssType">
+    <?php
+        $pdo = Connect::getConnect();
+        $obj = $pdo->prepare("select * from Types");
+        $obj->execute();
+        $list = $obj->fetchAll();
+        
+        foreach($list as $item)
+        {?>
+           <form action="/Admin/DellType" method="post">
+               <p>
+                   <input type="text" class="hide" name="id" value="<?php echo $item['Id']; ?>">
+                   <?php echo"  ".$item['Name']."  "; ?>
+                   
+                   <input type="submit" name="dells" value="Видалити">
+               </p>
+           </form>
+        <?php }  
+    ?>
+</div>

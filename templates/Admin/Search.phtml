@@ -1,0 +1,117 @@
+﻿<nav class="menu2">
+    <?php error_reporting(0);?>
+    <div id="search" style="text-align: center;">Виберіть спосіб відбору: 
+        <form action="" method="post">
+            <select size="1" name="searchType">
+                <option selected="selected" value="№ Замовлення" name="№ Заказа">№ Замовлення</option>
+                <option value="Імя замовника" name="Імя замовника" <?php if($_POST['searchType'] == 'Імя замовника') echo 'selected="selected"';?>>І'мя замовника</option>
+                <option value="Місто" name="Місто" <?php if($_POST['searchType'] == 'Місто') echo 'selected="selected"';?>>Місто</option>
+                <option value="Назва товару" name="Назва товару" <?php if($_POST['searchType'] == 'Назва товару') echo 'selected="selected"';?>>Назва товару</option>
+                <option value="Кількість" name="Кількість" <?php if($_POST['searchType'] == 'Кількість') echo 'selected="selected"';?>>Кількість</option>
+                <option value="Сума покупки" name="Сума покупки" <?php if($_POST['searchType'] == 'Сума покупки') echo 'selected="selected"';?>>Сума покупки</option>
+                <option value="Дата покупки" name="Дата покупки" <?php if($_POST['searchType'] == 'Дата покупки') echo 'selected="selected"';?>>Дата покупки</option>
+                <option value="По типу" name="По типу" <?php if($_POST['searchType'] == 'По типу') echo 'selected="selected"';?>>По типу</option>
+            </select>
+	    <p>Тип</p>
+            <select  size="1" name="tovType">
+                <option value="Зернові" name="Зернові" <?php if($_POST['tovType'] == 'Зернові') echo 'selected="selected"';?>>Зернові</option>
+                <option value="Багаторічні трави" name="Багаторічні трави" <?php if($_POST['tovType'] == 'Багаторічні трави') echo 'selected="selected"';?>>Багаторічні трави</option>
+                <option value="Олійні" name="Олійні" <?php if($_POST['tovType'] == 'Олійні') echo 'selected="selected"';?>>Олійні</option>
+                <option value="Комбікорм" name="Комбікорм" <?php if($_POST['tovType'] == 'Комбікорм') echo 'selected="selected"';?>>Комбікорм</option>
+            </select>
+            <br><br><p>Виберіть період <p>від: <input type="date" name="calendar1" value="<?php echo $_POST['calendar1'];?>"></p> <p>до: <input type="date" name="calendar2" value="<?php echo $_POST['calendar2'];?>"></p></p>
+            <label><p></br>Введіть параметри пошуку</br><input type="text" name="value" value="<?php echo $_POST['value'];?>"></</label>
+            <p>Виберіть дату: <input type="date" name="calendar" value="<?php echo $_POST['calendar'];?>">
+            <p class="zamovlenya"><input type="submit" value="Пошук" name="Search" class="btn"></p>
+        </form>
+    </div>
+    <table>
+        <caption>Пошук по параметру: <b><?php echo $_POST['searchType'] ?></b></caption>
+        <tr>
+            <th>№ Замовлення</th>
+            <th>Імя замовника</th>
+            <th>Місто</th>
+            <th>Товар</th>
+            <th>Кількість</th>
+            <th>Сума покупки</th>
+            <th>Дата покупки</th>
+        </tr>
+        <?php
+            $pdo = Connect::getConnect();
+            $st = $_POST['searchType'];
+            $val = $_POST['value'];
+            $like = '%'.$_POST['value'].'%';
+            $date = $_POST['calendar'];
+            $date1 = $_POST['calendar1'];
+            $date2 = $_POST['calendar2'];
+            $sort = "Date";
+            $tovType = $_POST['tovType'];
+            if(!$_POST['calendar2']) {$date2 = date("Y-m-d");}
+            if(!$_POST['calendar']) {$date = date("Y-m-d");}
+            if(isset($st) == FALSE) { $st = '№ Заказа';}
+            if($st == '№ Заказа'){
+                $quer = "SELECT * FROM Orders WHERE Orders.Id  = '$val'";
+            }
+            elseif ($st == 'Імя замовника')
+                {
+                    $quer = "SELECT * FROM Orders WHERE Orders.Date >= '$date1' AND Orders.Date <= '$date2' AND Orders.UserId IN (SELECT Users.ID FROM Users WHERE Users.Names LIKE '$like')";
+                }
+                elseif ($st == 'Місто'){
+                    $quer = "SELECT * FROM Orders WHERE Orders.Date >= '$date1' AND Orders.Date <= '$date2' AND Orders.UserId IN (SELECT Users.ID FROM Users WHERE Users.City LIKE '$like')";
+                }
+                elseif ($st == 'Назва товару')
+                {
+                    $quer = "SELECT * FROM Orders WHERE Orders.Date >= '$date1' AND Orders.Date <= '$date2' AND Orders.ProductId IN (SELECT Products.Id FROM Products WHERE Products.Name LIKE '$like')";
+                }
+                elseif ($st == 'Кількість')
+                {
+                    $quer = "SELECT * FROM Orders WHERE Orders.Date >= '$date1' AND Orders.Date <= '$date2' AND Orders.Count = '$val'";
+                }
+                elseif ($st == 'Сума покупки')
+                {
+                    $quer = "SELECT * FROM Orders WHERE Orders.Date >= '$date1' AND Orders.Date <= '$date2' AND (Orders.Count * (SELECT Products.Price FROM Products WHERE Products.Id = Orders.ProductId)) = '$val'";
+                }
+                elseif ($st == 'Дата покупки'){
+                    $quer = "SELECT * FROM Orders WHERE Orders.Date >= '$date1' AND Orders.Date <= '$date2' AND Orders.Date = '$date'";
+                }
+                elseif ($st == 'По типу'){
+                    $quer = "SELECT * FROM Orders WHERE Orders.Date >= '$date1' AND Orders.Date <= '$date2' AND Orders.ProductId IN (SELECT Products.Id FROM Products WHERE Products.Kod_T = (SELECT Types.Id FROM Types WHERE Types.Name = '$tovType')) AND Orders.UserId IN (SELECT Users.ID FROM Users WHERE Users.Names LIKE '$like')";
+                }
+            $prod = $pdo->prepare($quer);
+            $prod->execute();
+            $orderList = $prod->fetchAll();
+        foreach($orderList as $Order)
+        {
+            ?>
+        <tr>
+            <?php 
+            $Name = $pdo->prepare("SELECT * FROM Users WHERE Users.Id = '{$Order['UserId']}'");
+            $Name->execute();
+            $a = $Name->FetchAll();
+            $proda = $pdo->prepare("SELECT * FROM Products WHERE Products.Id = '{$Order['ProductId']}'");
+            $proda->execute();
+            $orderLista = $proda->fetchAll();
+            foreach($orderLista as $Ordera)
+            {
+            foreach($a as $ab)
+            {?>
+            
+            <td><?php echo $Order['Id']; ?></td>
+            <td><?php echo $ab['Names'] ?></td>
+            <td><?php echo $ab['City'] ?></td>
+            <td><?php echo $Ordera['Name'] ?></td>
+            <td><?php echo $Order['Count']; ?></td>
+            <td><?php echo $Order['Count'] * $Ordera['Price'] ?></td>
+            <td><?php echo $Order['Date']; ?></td>
+            <?php $sumTPotipu += $Order['Count'] * $Ordera['Price']; ?>
+        </tr>
+        <?php }}} ?>
+            <td>Загальна сума:</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><?php echo $sumTPotipu;?></td>
+            <td></td>
+    </table>
+</nav>

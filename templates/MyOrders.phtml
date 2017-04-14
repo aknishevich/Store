@@ -1,0 +1,48 @@
+﻿<nav class="menu2">
+    <?php error_reporting(0);
+    $pdo = Connect::getConnect();
+            $nm = $_SESSION['login'];
+            $us = $pdo->prepare("select * from Users where Names = '{$nm}'");
+            $us->execute();
+             $User = $us->fetch();
+             $userId = $User['ID'];
+    ?>
+    <div style="text-align: center;">
+        <?php echo '<b>'.$nm.'</b>, ';?>ваші замовлення, відсортовані по даті:
+    </div>
+    <table style="margin-top: 10px;">
+        <tr>
+            <th>№ Замовлення</th>
+            <th>Товар</th>
+            <th>Кількість</th>
+            <th>Сума покупки</th>
+            <th>Дата покупки</th>
+        </tr>
+        <?php
+            $prod = $pdo->prepare("SELECT * FROM Orders WHERE Orders.UserId = '$userId' ORDER BY Date DESC");
+            $prod->execute();
+            $orderList = $prod->fetchAll();
+        foreach($orderList as $Order)
+        {
+            ?>
+        <tr>
+            <?php 
+            $Name = $pdo->prepare("SELECT * FROM Users WHERE Users.Id = '{$Order['UserId']}'");
+            $Name->execute();
+            $a = $Name->FetchAll();
+            $proda = $pdo->prepare("SELECT * FROM Products WHERE Products.Id = '{$Order['ProductId']}'");
+            $proda->execute();
+            $orderLista = $proda->fetchAll();
+            foreach($orderLista as $Ordera)
+            {
+            foreach($a as $ab)
+            {?>
+            <td><?php echo $Order['Id']; ?></td>
+            <td><?php echo $Ordera['Name']; ?></td>
+            <td><?php echo $Order['Count']; ?></td>
+            <td><?php echo $Order['Count'] * $Ordera['Price'] ?></td>
+            <td><?php echo $Order['Date']; ?></td>
+        </tr>
+        <?php }}} ?>
+    </table>
+</nav>
